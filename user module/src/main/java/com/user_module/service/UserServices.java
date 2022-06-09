@@ -1,11 +1,10 @@
-package com.knoldus.user_module.service;
+package com.user_module.service;
 
-import com.knoldus.user_module.Model.User;
-import com.knoldus.user_module.repository.UserRepository;
-import com.knoldus.user_module.validation.UserValidation;
+import com.user_module.Model.User;
+import com.user_module.repository.UserRepository;
+import com.user_module.validation.UserValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 /**

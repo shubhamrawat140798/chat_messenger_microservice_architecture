@@ -1,5 +1,5 @@
-package com.knoldus.user_module.repository;
-import com.knoldus.user_module.Model.User;
+package com.user_module.repository;
+import com.user_module.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

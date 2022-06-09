@@ -1,7 +1,7 @@
-package com.knoldus.user_module.controller;
-import com.knoldus.user_module.Model.User;
-import com.knoldus.user_module.repository.UserRepository;
-import com.knoldus.user_module.service.UserServices;
+package com.user_module.controller;
+import com.user_module.Model.User;
+import com.user_module.repository.UserRepository;
+import com.user_module.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;

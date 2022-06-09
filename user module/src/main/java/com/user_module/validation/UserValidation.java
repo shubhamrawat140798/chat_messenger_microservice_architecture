@@ -1,4 +1,4 @@
-package com.knoldus.user_module.validation;
+package com.user_module.validation;
 
 import org.springframework.stereotype.Service;
 

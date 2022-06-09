@@ -1,4 +1,4 @@
-package com.knoldus.user_module.Model;
+package com.user_module.Model;
 
 import com.sun.istack.NotNull;
 import org.springframework.context.annotation.Bean;
