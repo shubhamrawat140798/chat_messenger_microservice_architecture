@@ -1,0 +1,359 @@
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Chat messenger</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <div id="container">
+            <aside>
+                <header>
+                    <p th:text="${searchFormErrorMessage}"></p>
+                    <form class="searchForm" action="#" th:action="@{/SearchUser}" th:object="${searchUser}" method="post">
+                    <input type="text" placeholder="search" th:field="*{mobile}">
+                    <button class="searchButton" type="submit"></button>
+                    </form>
+                </header>
+                <ul>
+                        <li th:each="User: ${listUser}" class="userRelationForm" >
+
+                            <form action="#" th:action="@{/Chat}"  method="post" class="userForm">  <!-- th:object="${User}"-->
+                                <button class="submitUser" type="submit">
+                            <img  class="userIcon" src="https://thumbs.dreamstime.com/b/solid-purple-gradient-user-icon-web-mobile-design-interface-ui-ux-developer-app-137467998.jpg" alt="">
+                                <div>
+                                    <h2 th:text="${User.name}" ></h2>
+                                    <input type="hidden" name="id" th:value="${User.id}"/>
+<!--                                    <h3>-->
+<!--                                        <span class="status orange"></span>-->
+<!--                                        offline-->
+<!--                                    </h3>-->
+                                </div>
+                                </button>
+                            </form>
+                        </li >
+<!--                    <li>-->
+<!--                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">-->
+<!--                        <div>-->
+<!--                            <h2>Utkarsh Ambastha</h2>-->
+<!--                            <h3>-->
+<!--                                <span class="status green"></span>-->
+<!--                                online-->
+<!--                            </h3>-->
+<!--                        </div>-->
+<!--                    </li>-->
+                </ul>
+            </aside>
+            <main>
+<!--                Do not show if there is no receiverUser name or empty -->
+                <header th:if= "${receiverUser.name != ''}" >
+                    <img class="userIcon" src="https://thumbs.dreamstime.com/b/solid-purple-gradient-user-icon-web-mobile-design-interface-ui-ux-developer-app-137467998.jpg" alt="">
+                    <div>
+                        <h2 th:text="'Chat with ' + ${receiverUser.name}"></h2>
+<!--                        <h3>Online...</h3>-->
+                    </div>
+<!--                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">-->
+                </header>
+                <ul id="chat">
+                    <div th:each="message: ${listMessages}">
+                    <div th:switch="${message.senderId}">
+                    <li class="you" th:case="${receiverUser.id}">
+                        <div class="entete">
+                            <span class="status green"></span>
+                            <h2 th:text="${receiverUser.name}"></h2>
+                            <h3 th:text="${message.createdDate}"></h3>
+                        </div>
+                        <div class="triangle"></div>
+                        <div class="message" th:text="${message.messageBody}"></div>
+                    </li>
+                    <li class="me" th:case="${user.id}">
+                        <div class="entete">
+                            <h3 th:text="${message.createdDate}"></h3>
+                            <h2 th:text="'You'"></h2>
+                            <span class="status blue"></span>
+                        </div>
+                        <div class="triangle"></div>
+                        <div class="message" th:text="${message.messageBody}">
+                        </div>
+                    </li>
+                    </div>
+                    </div>
+                    <div id="bottomEndOfChat"></div>
+                </ul>
+                <footer  th:if= "${receiverUser.name != ''}">
+                    <form action="#" th:action="@{/SendMessage}" method="post" th:object="${messagePayload}" class="messageForm">
+<!--                <input name="id" th:value="${receiverId}"/> -->
+                    <textarea placeholder="Type your message" th:field="*{messageBody}"></textarea>
+                    <input type="hidden" name="id" th:value="${receiverId}"/>
+                    <button class="sendButton" type="submit">SEND</button>
+                    </form>
+                </footer>
+            </main>
+        </div>
+    <style>
+        *{
+	box-sizing:border-box;
+}
+body{
+	background-color: #302b63;
+	font-family:Arial;
+}
+.userIcon{
+    height: 50px;
+
+}
+.searchButton{
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_search.png);
+    height: 50px;
+    width: 20%;
+    background-color:#5e616a;
+    border:none;
+
+}
+.searchButton:hover{
+	background-color:#302b63;
+}
+.searchForm{
+    display: flex;
+}
+.userForm{
+    margin: 0;
+    padding: 0;
+}
+.submitUser{
+    border: none;
+    background: transparent;
+    width: 260px;
+    display: flex;
+    justify-content: start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+#container{
+	width:60%;
+	height:100%;
+	background:#eff3f7;
+	margin:0 auto;
+	font-size:0;
+	border-radius:5px;
+	overflow:hidden;
+}
+.userRelationForm{
+    margin-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+aside{
+	width:30%;
+	height:100%;
+	background-color:#573b8a;
+	display:inline-block;
+	font-size:15px;
+	vertical-align:top;
+}
+main{
+	width:70%;
+	height:90%;
+	display:inline-block;
+	font-size:15px;
+	vertical-align:top;
+}
+
+aside header{
+	padding:30px 20px;
+}
+aside input{
+	width:80%;
+	height:50px;
+	line-height:50px;
+	padding:0 0 0 20px;
+	background-color:#5e616a;
+	border:none;
+	border-radius:3px;
+	color:#fff;
+	background-repeat:no-repeat;
+	background-position:170px;
+	background-size:40px;
+}
+aside input::placeholder{
+	color:#fff;
+}
+aside ul{
+	padding-left:0;
+	margin:0;
+	list-style-type:none;
+	overflow-y:scroll;
+	height:690px;
+}
+aside li{
+	padding:10px 0;
+}
+aside li:hover{
+	background-color:#5e616a;
+}
+h2,h3{
+	margin:0;
+}
+aside li img{
+	border-radius:50%;
+	margin-left:20px;
+	margin-right:8px;
+}
+aside li div{
+	display:inline-block;
+	vertical-align:top;
+	margin-top:12px;
+}
+aside li h2{
+	font-size:14px;
+	color:#fff;
+	font-weight:normal;
+	margin-bottom:5px;
+}
+aside li h3{
+	font-size:12px;
+	color:#7e818a;
+	font-weight:normal;
+}
+
+.status{
+	width:8px;
+	height:8px;
+	border-radius:50%;
+	display:inline-block;
+	margin-right:7px;
+}
+.green{
+	background-color:#6d44b8;
+}
+.orange{
+	background-color:#ff725d;
+}
+.blue{
+	background-color:darkmagenta;
+	margin-right:0;
+	margin-left:7px;
+}
+
+main header{
+	height:110px;
+	padding:30px 20px 30px 40px;
+}
+main header > *{
+	display:inline-block;
+	vertical-align:top;
+}
+main header img:first-child{
+	border-radius:50%;
+}
+main header img:last-child{
+	width:24px;
+	margin-top:8px;
+}
+main header div{
+	margin-left:10px;
+	margin-right:145px;
+}
+main header h2{
+	font-size:16px;
+	margin-bottom:5px;
+}
+main header h3{
+	font-size:14px;
+	font-weight:normal;
+	color:#7e818a;
+}
+
+#chat{
+	padding-left:0;
+	margin:0;
+	list-style-type:none;
+	overflow-y:scroll;
+	height:80%;
+	border-top:2px solid #fff;
+	border-bottom:2px solid #fff;
+}
+#chat li{
+	padding:10px 30px;
+}
+#chat h2,#chat h3{
+	display:inline-block;
+	font-size:13px;
+	font-weight:normal;
+}
+#chat h3{
+	color:#bbb;
+}
+#chat .entete{
+	margin-bottom:5px;
+}
+#chat .message{
+	padding:20px;
+	color:#fff;
+	line-height:25px;
+	max-width:90%;
+	display:inline-block;
+	text-align:left;
+	border-radius:5px;
+}
+#chat .me{
+	text-align:right;
+}
+#chat .you .message{
+	background-color:#6d44b8;
+}
+#chat .me .message{
+	background-color: darkmagenta;
+}
+#chat .triangle{
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 10px 10px 10px;
+}
+#chat .you .triangle{
+		border-color: transparent transparent #6d44b8 transparent;
+		margin-left:15px;
+}
+#chat .me .triangle{
+		border-color: transparent transparent darkmagenta transparent;
+		margin-left:95%;
+}
+
+main footer{
+	height:155px;
+	padding:20px 30px 10px 20px;
+}
+main footer textarea{
+	resize:none;
+	border:none;
+	display:block;
+	width:100%;
+	height:80px;
+	border-radius:3px;
+	padding:20px;
+	font-size:13px;
+	margin-bottom:13px;
+}
+main footer textarea::placeholder{
+	color:#ddd;
+}
+main footer img{
+	height:30px;
+	cursor:pointer;
+}
+.sendButton{
+	text-decoration:none;
+	text-transform:uppercase;
+	font-weight:bold;
+	color:#6d44b8;
+	vertical-align:top;
+	margin-left:333px;
+	margin-top:5px;
+	display:inline-block;
+}
+    </style>
+    <script th:inline="javascript">
+<!--    for  automatic scroll down on loading new messages -->
+       const chat =  document.getElementById("bottomEndOfChat").scrollIntoView();
+    </script>
+    </body>
+</html>
